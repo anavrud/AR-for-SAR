@@ -50,11 +50,25 @@ def handle_client(client_socket):
             client_socket.send(message)
             
             # Sleep for a second
-            time.sleep(1)
+            time.time(1)
     except Exception as e:
         print(f"Connection closed: {e}")
     finally:
         client_socket.close()
+
+def get_ip_address():
+    """Get local IP address using a socket connection"""
+    try:
+        # Create a socket and connect to an external server
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # Doesn't actually connect but gives us the interface IP
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception as e:
+        print(f"Error getting IP: {e}")
+        return "Unknown IP (Check settings)"
 
 def start_server():
     """Start the GPS server"""
@@ -68,12 +82,8 @@ def start_server():
     server.bind((server_ip, server_port))
     server.listen(5)
     
-    # Get this device's IP address
-    ip_info = subprocess.check_output(['ifconfig', 'wlan0']).decode('utf-8')
-    ip_address = "unknown"
-    for line in ip_info.split('\n'):
-        if "inet " in line:
-            ip_address = line.split('inet ')[1].split(' ')[0]
+    # Get this device's IP address using our new method
+    ip_address = get_ip_address()
     
     print(f"[*] GPS Server running")
     print(f"[*] IP Address: {ip_address}")
