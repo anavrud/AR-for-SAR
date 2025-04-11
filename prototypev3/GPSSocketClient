@@ -175,4 +175,4 @@ public class GPSSocketClient : MonoBehaviour
         IsConnected = false;
     }
 #endif
-}P
+}
