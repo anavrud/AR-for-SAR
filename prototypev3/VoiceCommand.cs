@@ -2,7 +2,7 @@ using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
-public class RecenterVoiceCommand : MonoBehaviour, IMixedRealitySpeechHandler
+public class VoiceCommand : MonoBehaviour, IMixedRealitySpeechHandler
 {
     [Header("Component References")]
     [SerializeField]
